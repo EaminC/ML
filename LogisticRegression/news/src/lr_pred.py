@@ -1,17 +1,17 @@
 #../model/lr.pkl
 import joblib
 import pandas as pd
+from sklearn.datasets import fetch_20newsgroups
+target_names = fetch_20newsgroups(subset='train').target_names
+lr_pipeline = joblib.load('../model/lr_pipeline.pkl')
 
-lr_ovr = joblib.load('../model/lr_ovr.pkl')
-lr_multinomial = joblib.load('../model/lr_multinomial.pkl')
 
+new_data = ['NASA s latest spacecraft successfully launched yesterday.',
+            'My computer crashes every time I boot Linux.']
+new_pred = lr_pipeline.predict(new_data)
+#all name
 
-new_data = [[6.4, 2.8, 5.6, 2.2]]
-new_pred_multinomial = lr_multinomial.predict(new_data)
-new_pred_ovr = lr_ovr.predict(new_data)
-ground_truth = 2
-
+new_pred_names = [target_names[i] for i in new_pred]
 print(f"New Data: {new_data}")
-print(f"New Prediction Multinomial: {new_pred_multinomial}")
-print(f"New Prediction OVR: {new_pred_ovr}")
-print(f"Ground Truth: {ground_truth}")
+print(f"New Prediction: {new_pred}")
+print(f"New Prediction Name: {new_pred_names}")
